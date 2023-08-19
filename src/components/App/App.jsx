@@ -35,15 +35,6 @@ export class App extends Component {
 
       this.setState({ loading: true });
 
-      if (normalizedQuery === '') {
-        alert('dhgfhgdvhjsd');
-        this.setState({
-          images: [],
-          loading: false,
-        });
-        return;
-      }
-
       try {
         const images = await fetchImages(normalizedQuery, this.state.page);
 
@@ -67,16 +58,20 @@ export class App extends Component {
 
   handleLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState({ loading: true });
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, noResults } = this.state;
     return (
       <MainContainer>
         <div>
           <SearchBar onSubmit={this.changeQuery} />
         </div>
-        <div>{loading ? <Loader /> : <ImageGallery images={images} />}</div>
+        <div>
+          <ImageGallery images={images} />
+        </div>
+        {loading && <Loader />}
         <div>
           {images.length !== 0 && <Button onClick={this.handleLoadMore} />}
         </div>
