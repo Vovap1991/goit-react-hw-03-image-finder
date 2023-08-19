@@ -29,7 +29,10 @@ export class App extends Component {
       const normalizedQuery = newQuery.slice(newQuery.indexOf('/') + 1);
 
       const images = await fetchImages(normalizedQuery, this.state.page);
-      console.log(images);
+
+      this.setState(prevState => ({
+        images: [...prevState.images, ...images.hits],
+      }));
     }
   }
 
@@ -38,13 +41,14 @@ export class App extends Component {
   };
 
   render() {
+    const { images } = this.state;
     return (
       <div>
         <div>
           <SearchBar onSubmit={this.changeQuery} />
         </div>
         <div>
-          <ImageGallery />
+          <ImageGallery images={images} />
         </div>
         <div>
           <Button onClick={this.handleLoadMore} />
