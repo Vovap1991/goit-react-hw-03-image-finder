@@ -5,12 +5,14 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 
 import { fetchImages } from '../api';
+import { Loader } from './Loader/Loader';
 
 export class App extends Component {
   state = {
     query: '',
     images: [],
     page: 1,
+    loading: false,
   };
 
   changeQuery = newQuery => {
@@ -28,10 +30,13 @@ export class App extends Component {
     if (prevQuery !== newQuery || prevState.page !== this.state.page) {
       const normalizedQuery = newQuery.slice(newQuery.indexOf('/') + 1);
 
+      this.setState({ loading: true });
+
       const images = await fetchImages(normalizedQuery, this.state.page);
 
       this.setState(prevState => ({
         images: [...prevState.images, ...images.hits],
+        loading: false,
       }));
     }
   }
@@ -41,17 +46,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, loading } = this.state;
     return (
       <div>
         <div>
           <SearchBar onSubmit={this.changeQuery} />
         </div>
+        <div>{loading ? <Loader /> : <ImageGallery images={images} />}</div>
         <div>
-          <ImageGallery images={images} />
-        </div>
-        <div>
-          <Button onClick={this.handleLoadMore} />
+          {images.length !== 0 && <Button onClick={this.handleLoadMore} />}
         </div>
       </div>
     );
