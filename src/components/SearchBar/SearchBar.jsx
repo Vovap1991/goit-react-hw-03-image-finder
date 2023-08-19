@@ -8,16 +8,23 @@ import {
   SearchBarSpan,
 } from './SearchBar.styled';
 
-export const SearchBar = () => {
+export const SearchBar = ({ onSubmit }) => {
   return (
     <SearchBarWrapper>
-      <SearchBarForm>
+      <SearchBarForm
+        onSubmit={event => {
+          event.preventDefault();
+          onSubmit(event.target.elements.query.value);
+          event.target.reset();
+        }}
+      >
         <SearchBarButton type="submit">
           <AiOutlineSearch size={25} color="#0a0909" />
           <SearchBarSpan>Search</SearchBarSpan>
         </SearchBarButton>
 
         <SearchBarInput
+          name="query"
           type="text"
           autoComplete="off"
           autoFocus
