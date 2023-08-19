@@ -62,7 +62,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, loading, noResults } = this.state;
+    const { images, loading } = this.state;
     return (
       <MainContainer>
         <div>
