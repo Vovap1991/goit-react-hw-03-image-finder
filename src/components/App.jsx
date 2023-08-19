@@ -8,15 +8,28 @@ export class App extends Component {
   state = {
     query: '',
     images: [],
+    page: 1,
   };
 
   changeQuery = newQuery => {
     this.setState({
       query: newQuery,
+      images: [],
+      page: 1,
     });
   };
 
-  setImages = () => {};
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.query !== this.state.query ||
+      prevState.page !== this.state.page
+    ) {
+    }
+  }
+
+  handleLoadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
 
   render() {
     return (
@@ -28,7 +41,7 @@ export class App extends Component {
           <ImageGallery />
         </div>
         <div>
-          <Button />
+          <Button onClick={this.handleLoadMore} />
         </div>
       </div>
     );
