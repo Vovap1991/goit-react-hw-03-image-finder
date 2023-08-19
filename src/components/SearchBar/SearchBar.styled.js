@@ -9,11 +9,10 @@ export const SearchBarWrapper = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60px;
   padding-right: 24px;
   padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   color: #fff;
   background-color: #3f51b5;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -42,6 +41,11 @@ export const SearchBarButton = styled.button`
   height: 40px;
   color: #0a0909;
   border-radius: 10px;
+
+  &:hover,
+  &:focus {
+    background-color: #e6ecf0;
+  }
 `;
 
 export const SearchBarInput = styled.input`

@@ -31,5 +31,3 @@ export const ModalImg = ({ isModalOpen, onClose, largeUrl, tags }) => {
     </Modal>
   );
 };
-
-// largeUrl, tags, isModalOpen, onClose;

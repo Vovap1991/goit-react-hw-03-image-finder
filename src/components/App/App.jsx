@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { SearchBar } from '../SearchBar/SearchBar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
@@ -38,12 +39,13 @@ export class App extends Component {
       try {
         const images = await fetchImages(normalizedQuery, this.state.page);
 
-        if (images.length === 0) {
+        if (images.hits.length === 0) {
+          Notify.failure(
+            'No images have been found according to your request. Please, try again!'
+          );
           this.setState({
-            noResults: true,
             loading: false,
           });
-          return;
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...images.hits],
