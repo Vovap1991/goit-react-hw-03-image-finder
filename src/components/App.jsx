@@ -4,6 +4,8 @@ import { SearchBar } from './SearchBar/SearchBar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 
+import { fetchImages } from '../api';
+
 export class App extends Component {
   state = {
     query: '',
@@ -13,17 +15,21 @@ export class App extends Component {
 
   changeQuery = newQuery => {
     this.setState({
-      query: newQuery,
+      query: `${Date.now()}/${newQuery}`,
       images: [],
       page: 1,
     });
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.query !== this.state.query ||
-      prevState.page !== this.state.page
-    ) {
+  async componentDidUpdate(prevProps, prevState) {
+    const prevQuery = prevState.query;
+    const newQuery = this.state.query;
+
+    if (prevQuery !== newQuery || prevState.page !== this.state.page) {
+      const normalizedQuery = newQuery.slice(newQuery.indexOf('/') + 1);
+
+      const images = await fetchImages(normalizedQuery, this.state.page);
+      console.log(images);
     }
   }
 
