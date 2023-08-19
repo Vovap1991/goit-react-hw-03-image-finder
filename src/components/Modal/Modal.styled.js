@@ -7,6 +7,6 @@ export const Overlay = styled.div`
 `;
 
 export const BigImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 800px;
+  height: 600px;
 `;

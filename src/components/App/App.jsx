@@ -20,6 +20,10 @@ export class App extends Component {
   };
 
   changeQuery = newQuery => {
+    if (newQuery === this.state.query) {
+      return Notify.failure('Please, enter search params');
+    }
+
     this.setState({
       query: `${Date.now()}/${newQuery}`,
       images: [],
