@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const SearchBarWrapper = styled.header`
   top: 0;
   left: 0;
-  position: sticky;
+  position: relative;
+  width: 100%;
   z-index: 1100;
   display: flex;
   justify-content: center;

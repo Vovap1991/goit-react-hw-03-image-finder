@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import { Overlay } from './Modal.styled';
+import { Overlay, BigImg } from './Modal.styled';
 
 const customStyles = {
   content: {
@@ -25,7 +25,7 @@ export const ModalImg = ({ isModalOpen, onClose, largeUrl, tags }) => {
     >
       <Overlay>
         <div>
-          <img src={largeUrl} alt={tags} />
+          <BigImg src={largeUrl} alt={tags} />
         </div>
       </Overlay>
     </Modal>
