@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
-import { SearchBar } from './SearchBar/SearchBar';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Button } from './Button/Button';
+import { SearchBar } from '../SearchBar/SearchBar';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
+import { Button } from '../Button/Button';
 
-import { fetchImages } from '../api';
-import { Loader } from './Loader/Loader';
+import { fetchImages } from '../../api';
+import { Loader } from '../Loader/Loader';
+
+import { MainContainer } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -13,6 +15,7 @@ export class App extends Component {
     images: [],
     page: 1,
     loading: false,
+    noResults: false,
   };
 
   changeQuery = newQuery => {
@@ -32,12 +35,33 @@ export class App extends Component {
 
       this.setState({ loading: true });
 
-      const images = await fetchImages(normalizedQuery, this.state.page);
+      if (normalizedQuery === '') {
+        alert('dhgfhgdvhjsd');
+        this.setState({
+          images: [],
+          loading: false,
+        });
+        return;
+      }
 
-      this.setState(prevState => ({
-        images: [...prevState.images, ...images.hits],
-        loading: false,
-      }));
+      try {
+        const images = await fetchImages(normalizedQuery, this.state.page);
+
+        if (images.length === 0) {
+          this.setState({
+            noResults: true,
+            loading: false,
+          });
+          return;
+        }
+        this.setState(prevState => ({
+          images: [...prevState.images, ...images.hits],
+          loading: false,
+        }));
+      } catch (error) {
+        console.log(error);
+        this.setState({ loading: false });
+      }
     }
   }
 
@@ -48,7 +72,7 @@ export class App extends Component {
   render() {
     const { images, loading } = this.state;
     return (
-      <div>
+      <MainContainer>
         <div>
           <SearchBar onSubmit={this.changeQuery} />
         </div>
@@ -56,7 +80,7 @@ export class App extends Component {
         <div>
           {images.length !== 0 && <Button onClick={this.handleLoadMore} />}
         </div>
-      </div>
+      </MainContainer>
     );
   }
 }
