@@ -17,6 +17,7 @@ export class App extends Component {
     page: 1,
     loading: false,
     noResults: false,
+    totalPages: 0,
   };
 
   changeQuery = newQuery => {
@@ -54,6 +55,7 @@ export class App extends Component {
         this.setState(prevState => ({
           images: [...prevState.images, ...images.hits],
           loading: false,
+          totalPages: Math.ceil(images.totalHits / 12),
         }));
       } catch (error) {
         console.log(error);
@@ -68,7 +70,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, page, totalPages } = this.state;
     return (
       <MainContainer>
         <div>
@@ -79,7 +81,9 @@ export class App extends Component {
         </div>
         {loading && <Loader />}
         <div>
-          {images.length !== 0 && <Button onClick={this.handleLoadMore} />}
+          {images.length !== 0 && totalPages !== page && (
+            <Button onClick={this.handleLoadMore} />
+          )}
         </div>
       </MainContainer>
     );
